@@ -1,0 +1,19 @@
+{
+  "name": "locke",
+  "version": "0.9.0",
+  "description": "The (soon-to-be) string internationalization handler of Bastion.",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBastionBot/Locke.git"
+  },
+  "author": "Sankarsan Kampa (a.k.a. k3rn31p4nic)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TheBastionBot/Locke/issues"
+  },
+  "homepage": "https://github.com/TheBastionBot/Locke#README"
+}
