@@ -2,6 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 class Locke {
+  /**
+   * @constructor The starting point of Locke
+   * @param {Object} [options] The options for initializing Locke
+   * @param {Object} [options.localesDir='locales'] The name of the directory
+   * where locales are stored.
+   * @param {Object} [options.defaultLocale='en_us'] The default locale.
+   */
   constructor(options = {}) {
     // Directory wheere locales are stored.
     if (options && options.localesDir && typeof options.localesDir === 'string') {
