@@ -42,7 +42,7 @@ class Locke {
   _getString(ns, l, k) {
     if (!this._strings.has(l)) l = this._defaultLocale;
 
-    if (!this._strings.get(l)[ns].hasOwnProperty(k)) {
+    if (!this._strings.get(l)[ns] || !this._strings.get(l)[ns].hasOwnProperty(k)) {
       if (l === this._defaultLocale) {
         return `No string found for the '${k}' key.`;
       }
