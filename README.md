@@ -16,7 +16,7 @@ ProjectDir/
 
 
 **TODO:**
-- [ ] Add support for a global constants across all locales.
+- [X] Add support for a global constants across all locales.
 - [ ] Add support for variables in translated strings.
 - [ ] Add support for using single file locales, for simple projects. Like:
   ```bash

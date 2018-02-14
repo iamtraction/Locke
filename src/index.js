@@ -21,6 +21,11 @@ class Locke {
     // Available locales
     this._locales = fs.readdirSync(`./${this._localesDir}/`).filter(file => fs.statSync(path.join(`./${this._localesDir}/`, file)).isDirectory());
 
+    // Constant/global values across all locales
+    let constantsPath = path.resolve(`./${this._localesDir}/constants.json`);
+    this._constants = fs.existsSync(constantsPath) ? require(constantsPath) : null;
+    this._constantsRegExp = this._constants ? new RegExp(Object.keys(this._constants).join('|'), 'gi') : null;
+
     // Default Locale
     if (options && options.defaultLocale && typeof options.defaultLocale === 'string' && this._locales.includes(options.defaultLocale)) {
       this._defaultLocale = options.defaultLocale
@@ -56,6 +61,9 @@ class Locke {
       return this._getString(ns, this._defaultLocale, k);
     }
 
+    if (this._constantsRegExp) {
+      return this._strings.get(l)[ns][k].replace(this._constantsRegExp, matched => this._constants[matched]);
+    }
     return this._strings.get(l)[ns][k];
   }
 
