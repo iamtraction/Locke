@@ -17,6 +17,9 @@ class Locke {
     else {
       this._localesDir = 'locales';
     }
+    if (!fs.existsSync(`./${this._localesDir}`)) {
+      throw new Error(`The specified locales directory '${this._localesDir}' was not.`);
+    }
 
     // Available locales
     this._locales = fs.readdirSync(`./${this._localesDir}/`).filter(file => fs.statSync(path.join(`./${this._localesDir}/`, file)).isDirectory());
