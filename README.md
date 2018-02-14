@@ -1,9 +1,11 @@
-
+# Locke
+The soon-to-be internationalization handler of Bastion.
 
 ```bash
 # Director Sturcture for locales
 ProjectDir/
 └─── locales
+     ├─── constants.json
      ├─── en_us
      │    ├─── error.json
      │    ├─── info.json
