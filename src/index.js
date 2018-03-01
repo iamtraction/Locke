@@ -54,7 +54,7 @@ class Locke {
   }
 
   // Returns a string for the specified key in the specified language in the specified namespace.
-  _getString(ns, l, k) {
+  _getString(ns, l, k, ...a) {
     if (!this._strings.has(l)) l = this._defaultLocale;
 
     if (!this._strings.get(l)[ns] || !this._strings.get(l)[ns].hasOwnProperty(k)) {
@@ -65,9 +65,9 @@ class Locke {
     }
 
     if (this._constantsRegExp) {
-      return this._strings.get(l)[ns][k].replace(this._constantsRegExp, matched => this._constants[matched]);
+      return substitute(this._strings.get(l)[ns][k].replace(this._constantsRegExp, matched => this._constants[matched]), ...a);
     }
-    return this._strings.get(l)[ns][k];
+    return substitute(this._strings.get(l)[ns][k], ...a);
   }
 
   /**
@@ -76,8 +76,8 @@ class Locke {
    * @param {String} locale The locale of the string to get
    * @param {String} key The key of the string to get
    */
-  info(locale, key) {
-    return this._getString('info', locale, key);
+  info(locale, key, ...vars) {
+    return this._getString('info', locale, key, ...vars);
   }
 
   /**
@@ -86,8 +86,8 @@ class Locke {
    * @param {String} locale The locale of the string to get
    * @param {String} key The key of the string to get
    */
-  warn(locale, key) {
-    return this._getString('warn', locale, key);
+  warn(locale, key, ...vars) {
+    return this._getString('warn', locale, key, ...vars);
   }
 
   /**
@@ -96,9 +96,21 @@ class Locke {
    * @param {String} locale The locale of the string to get
    * @param {String} key The key of the string to get
    */
-  error(locale, key) {
-    return this._getString('error', locale, key);
+  error(locale, key, ...vars) {
+    return this._getString('error', locale, key, ...vars);
   }
 }
 
 module.exports = Locke;
+
+/**
+ * Returns a string with substitutions of %var% with the variables in `args`.
+ * @function substitute
+ * @param {String} string The string in which substitutions are to be made.
+ * @param {Array<String|Number>} args The array of arguments containing the
+ * strings/numbers to be substituted.
+ */
+function substitute(string, ...args) {
+  let count = 0;
+  return string.replace(/%var%/g, () => args[count++]);
+};
