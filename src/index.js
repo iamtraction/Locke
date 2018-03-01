@@ -1,15 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * @class Locke
+ */
 class Locke {
   /**
-   * @constructor The starting point of Locke
-   * @param {Object} [options] The options for initializing Locke
+   * The starting point of Locke.
+   * @constructor
+   * @param {Object} [options] The options for initializing Locke.
    * @param {Object} [options.localesDir='locales'] The name of the directory
    * where locales are stored.
    * @param {Object} [options.defaultLocale='en_us'] The default locale.
    */
   constructor(options = {}) {
+    /* eslint-disable no-sync */
     // Directory wheere locales are stored.
     if (options && options.localesDir && typeof options.localesDir === 'string') {
       this._localesDir = options.localesDir;
@@ -31,7 +36,7 @@ class Locke {
 
     // Default Locale
     if (options && options.defaultLocale && typeof options.defaultLocale === 'string' && this._locales.includes(options.defaultLocale)) {
-      this._defaultLocale = options.defaultLocale
+      this._defaultLocale = options.defaultLocale;
     }
     else {
       this._defaultLocale = 'en_us';
@@ -51,9 +56,11 @@ class Locke {
 
       this._strings.set(locale, strings);
     }
+    /* eslint-enable no-sync */
   }
 
   // Returns a string for the specified key in the specified language in the specified namespace.
+  // eslint-disable-next-line require-jsdoc
   _getString(ns, l, k, ...a) {
     if (!this._strings.has(l)) l = this._defaultLocale;
 
@@ -73,8 +80,10 @@ class Locke {
   /**
    * Returns a info string for the specified key in the specified language.
    * @method info
-   * @param {String} locale The locale of the string to get
-   * @param {String} key The key of the string to get
+   * @param {String} locale The locale of the string to get.
+   * @param {String} key The key of the string to get.
+   * @returns {String} The info string for the specified key in the specified
+   * language.
    */
   info(locale, key, ...vars) {
     return this._getString('info', locale, key, ...vars);
@@ -83,8 +92,10 @@ class Locke {
   /**
    * Returns a warn string for the specified key in the specified language.
    * @method warn
-   * @param {String} locale The locale of the string to get
-   * @param {String} key The key of the string to get
+   * @param {String} locale The locale of the string to get.
+   * @param {String} key The key of the string to get.
+   * @returns {String} The warn string for the specified key in the specified
+   * language.
    */
   warn(locale, key, ...vars) {
     return this._getString('warn', locale, key, ...vars);
@@ -93,8 +104,10 @@ class Locke {
   /**
    * Returns a error string for the specified key in the specified language.
    * @method error
-   * @param {String} locale The locale of the string to get
-   * @param {String} key The key of the string to get
+   * @param {String} locale The locale of the string to get.
+   * @param {String} key The key of the string to get.
+   * @returns {String} The error string for the specified key in the specified
+   * language.
    */
   error(locale, key, ...vars) {
     return this._getString('error', locale, key, ...vars);
@@ -109,8 +122,9 @@ module.exports = Locke;
  * @param {String} string The string in which substitutions are to be made.
  * @param {Array<String|Number>} args The array of arguments containing the
  * strings/numbers to be substituted.
+ * @returns {String} The string with all the substitutions.
  */
 function substitute(string, ...args) {
   let count = 0;
   return string.replace(/%var%/g, () => args[count++]);
-};
+}
