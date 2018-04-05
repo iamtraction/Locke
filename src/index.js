@@ -9,9 +9,9 @@ class Locke {
    * The starting point of Locke.
    * @constructor
    * @param {Object} [options] The options for initializing Locke.
-   * @param {Object} [options.localesDir='locales'] The name of the directory
+   * @param {String} [options.localesDir='locales'] The name of the directory
    * where locales are stored.
-   * @param {Object} [options.defaultLocale='en_us'] The default locale.
+   * @param {String} [options.defaultLocale='en_us'] The default locale.
    */
   constructor(options = {}) {
     /* eslint-disable no-sync */
@@ -59,8 +59,17 @@ class Locke {
     /* eslint-enable no-sync */
   }
 
-  // Returns a string for the specified key in the specified language in the specified namespace.
-  // eslint-disable-next-line require-jsdoc
+  /**
+   * Returns a string for the specified key in the specified language,
+   * in the specified namespace.
+   * @private
+   * @method _getString
+   * @param {String} ns The namespace which has the string.
+   * @param {String} l The locale of the string to get.
+   * @param {String} k The key of the string to get.
+   * @returns {String} The string for the specified key in the specified
+   * language, in the specified namespace.
+   */
   _getString(ns, l, k, ...a) {
     if (!this._strings.has(l)) l = this._defaultLocale;
 
