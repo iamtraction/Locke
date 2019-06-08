@@ -1,6 +1,6 @@
 ![The internationalization handler of Bastion](https://i.imgur.com/3UBXzNe.png)
 
-### Director Sturcture for locales
+### Directory Sturcture for locales
 ```bash
 ProjectDir/
 └─── locales
