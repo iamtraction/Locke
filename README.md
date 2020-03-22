@@ -1,18 +1,18 @@
-![The internationalization handler of Bastion](https://i.imgur.com/3UBXzNe.png)
+![String internationalization handler](https://i.imgur.com/3UBXzNe.png)
 
 ### Directory Sturcture for locales
 ```bash
 ProjectDir/
 └─── locales
-     ├─── constants.json
+     ├─── constants.yaml
      ├─── en_us
-     │    ├─── error.json
-     │    ├─── info.json
-     │    └─── warn.json
+     │    ├─── error.yaml
+     │    ├─── info.yaml
+     │    └─── warn.yaml
      └─── en_uk
-          ├─── error.json
-          ├─── info.json
-          └─── warn.json
+          ├─── error.yaml
+          ├─── info.yaml
+          └─── warn.yaml
 ```
 
 
@@ -24,7 +24,7 @@ ProjectDir/
     # Director Sturcture for locales
     ProjectDir/
     └──── Locales
-          ├─── constants.json
-          ├─── en_us.json
-          └─── en_uk.json
+          ├─── constants.yaml
+          ├─── en_us.yaml
+          └─── en_uk.yaml
   ```
