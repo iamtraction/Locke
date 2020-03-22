@@ -9,7 +9,7 @@ interface LockeOptions {
     defaultLocale?: string;
 }
 
-export = class Locke {
+class Locke {
     /** The the directory where locales are stored. */
     private directory: string;
     /** The default locale. */
@@ -95,3 +95,5 @@ export = class Locke {
         return this.substitute(this.strings.get(locale).get(namespace)[key], ...args);
     }
 }
+
+export { Locke };
