@@ -53,8 +53,7 @@ export = class Locke {
                 if (this.constants) {
                     const constantsRegExp = new RegExp("%(?:" + Object.keys(this.constants).join("|") + ")%", "g");
                     for (const key in strings) {
-                        if (strings.hasOwnProperty(key)) {
-                            console.log(this.constants)
+                        if (Object.prototype.hasOwnProperty.call(strings, key)) {
                             strings[key] = strings[key].replace(constantsRegExp, matched => this.constants[matched.slice(1, -1)]);
                         }
                     }
@@ -71,7 +70,7 @@ export = class Locke {
      * Returns a string with substitutions of %var% with the variables
      * in `args`.
      */
-    private substitute(string: string, ...args: unknown[]) {
+    private substitute(string: string, ...args: unknown[]): string {
         let count = 0;
         if (args.length) return string.replace(/%var%/g, () => args[count] ? args[count++].toString() : "%var%");
         return string;
@@ -86,7 +85,7 @@ export = class Locke {
             locale = this.defaultLocale;
         }
 
-        if (!this.strings.get(locale).has(namespace) || !this.strings.get(locale).get(namespace).hasOwnProperty(key)) {
+        if (!this.strings.get(locale).has(namespace) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale).get(namespace), key)) {
             if (locale === this.defaultLocale) {
                 return `No string found for '${namespace}::${key}' in the locale '${locale}'.`;
             }
