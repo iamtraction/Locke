@@ -1,20 +1,25 @@
 {
   "name": "locke",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "The (soon-to-be) string internationalization handler of Bastion.",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
+  "typings": "./typings/index.d.ts",
   "scripts": {
+    "build:transpile": "./node_modules/.bin/tsc",
     "test:lint": "./node_modules/.bin/eslint .",
-    "test": "npm run test:lint && exit 0"
+    "test": "yarn test:lint && exit 0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TheBastionBot/Locke.git"
-  },
-  "author": "Sankarsan Kampa (a.k.a. k3rn31p4nic)",
+  "repository": "https://github.com/TheBastionBot/Locke.git",
+  "author": "Sankarsan Kampa",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/TheBastionBot/Locke/issues"
+  "homepage": "https://github.com/TheBastionBot/Locke#README",
+  "dependencies": {
+    "yaml": "^1.8.3"
   },
-  "homepage": "https://github.com/TheBastionBot/Locke#README"
+  "devDependencies": {
+    "@types/node": "^13.9.2",
+    "@types/yaml": "^1.2.0",
+    "eslint": "^6.8.0",
+    "typescript": "^3.8.3"
+  }
 }
