@@ -1,8 +1,9 @@
 ﻿"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const path = require("path");
 const YAML = require("yaml");
-module.exports = class Locke {
+class Locke {
     constructor(options = {}) {
         this.defaultLocale = options.defaultLocale || "en_us";
         this.directory = options.directory || "locales";
@@ -56,5 +57,6 @@ module.exports = class Locke {
         }
         return this.substitute(this.strings.get(locale).get(namespace)[key], ...args);
     }
-};
+}
+exports.Locke = Locke;
 //# sourceMappingURL=index.js.map
