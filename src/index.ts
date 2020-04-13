@@ -77,7 +77,14 @@ class Locke {
     }
 
     /**
-     * Returns a string for the specified key in the specified language,
+     * Returns the constant string for the specified key
+     */
+    public getConstant(key: string): string {
+        return this.constants[key];
+    }
+
+    /**
+     * Returns the string for the specified key in the specified language,
      * in the specified namespace of the specified locale.
      */
     public getString(locale: string, namespace: string, key: string, ...args: unknown[]): string {
