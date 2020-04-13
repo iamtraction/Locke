@@ -1,0 +1,26 @@
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    yarn install
+  displayName: 'Init'
+- script: |
+    make clean
+  displayName: 'Clean'
+- script: |
+    make test
+  displayName: 'Test'
+- script: |
+    make build
+  displayName: 'Build'
