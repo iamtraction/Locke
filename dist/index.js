@@ -45,6 +45,9 @@ class Locke {
             return string.replace(/%var%/g, () => args[count] ? args[count++].toString() : "%var%");
         return string;
     }
+    getConstant(key) {
+        return this.constants[key];
+    }
     getString(locale, namespace, key, ...args) {
         if (!this.strings.has(locale)) {
             locale = this.defaultLocale;
