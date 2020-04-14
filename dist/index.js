@@ -48,6 +48,9 @@ class Locke {
     getConstant(key) {
         return this.constants[key];
     }
+    getLocales() {
+        return this.locales;
+    }
     getString(locale, namespace, key, ...args) {
         if (!this.strings.has(locale)) {
             locale = this.defaultLocale;
