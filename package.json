@@ -1,6 +1,6 @@
 {
   "name": "locke",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The string internationalization handler of Bastion.",
   "main": "./dist/index.js",
   "typings": "./typings/index.d.ts",
