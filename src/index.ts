@@ -84,6 +84,13 @@ class Locke {
     }
 
     /**
+     * Returns the available locales.
+     */
+    public getLocales(): string[] {
+        return this.locales;
+    }
+
+    /**
      * Returns the string for the specified key in the specified language,
      * in the specified namespace of the specified locale.
      */
