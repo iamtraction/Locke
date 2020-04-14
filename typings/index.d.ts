@@ -11,6 +11,7 @@ declare class Locke {
     constructor(options?: LockeOptions);
     private substitute;
     getConstant(key: string): string;
+    getLocales(): string[];
     getString(locale: string, namespace: string, key: string, ...args: unknown[]): string;
 }
 export { Locke };
