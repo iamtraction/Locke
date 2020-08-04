@@ -72,7 +72,7 @@ class Locke {
      */
     private substitute(string: string, ...args: unknown[]): string {
         let count = 0;
-        if (args.length) return string.replace(/%var%/g, () => args[count] ? args[count++].toString() : "%var%");
+        if (args.length) return string.replace(/%var%/g, () => args[count] !== null && typeof args[count] !== "undefined" ? args[count++].toString() : "%var%");
         return string;
     }
 
