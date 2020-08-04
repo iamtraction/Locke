@@ -1,5 +1,6 @@
 ﻿"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Locke = void 0;
 const fs = require("fs");
 const path = require("path");
 const YAML = require("yaml");
@@ -42,7 +43,7 @@ class Locke {
     substitute(string, ...args) {
         let count = 0;
         if (args.length)
-            return string.replace(/%var%/g, () => args[count] ? args[count++].toString() : "%var%");
+            return string.replace(/%var%/g, () => args[count] !== null && typeof args[count] !== "undefined" ? args[count++].toString() : "%var%");
         return string;
     }
     getConstant(key) {
