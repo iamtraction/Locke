@@ -13,10 +13,8 @@ declare class Locke {
     private strings;
     constructor(options?: LockeOptions);
     private loadStrings;
-    private substitute;
     getConstant(key: string): string;
     getLocales(): string[];
-    getString(locale: string, key: string, ...args: unknown[]): string;
     private resolveVariables;
     getText(locale: string, key: string, variables: Variables): string;
 }
