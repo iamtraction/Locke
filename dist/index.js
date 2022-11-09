@@ -81,5 +81,20 @@ class Locke {
         }
         return this.substitute(this.strings.get(locale)[key], ...args);
     }
+    resolveVariables(text, variables) {
+        for (const [key, value] of Object.entries(variables || {})) {
+            text = text.replaceAll(`%${key}%`, String(value));
+        }
+        return text;
+    }
+    getText(locale, key, variables) {
+        if (!this.strings.get(locale) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale), key)) {
+            if (locale === this.defaultLocale) {
+                return `No string found for '${key}' in the locale '${locale}'.`;
+            }
+            return this.getText(this.defaultLocale, key, variables);
+        }
+        return this.resolveVariables(this.strings.get(locale)[key], variables);
+    }
 }
 exports.Locke = Locke;
