@@ -1,8 +1,8 @@
 ﻿"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Locke = void 0;
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const YAML = require("yaml");
 class Locke {
     defaultLocale;
@@ -11,7 +11,7 @@ class Locke {
     constants;
     strings;
     constructor(options = {}) {
-        this.defaultLocale = options.defaultLocale || "en_us";
+        this.defaultLocale = options.defaultLocale || "en-US";
         this.directory = options.directory || "locales";
         this.directory = path.resolve("./" + this.directory);
         this.locales = [];
