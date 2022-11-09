@@ -9,8 +9,8 @@
     "test": "eslint . --ext .ts"
   },
   "repository": "https://github.com/TheBastionBot/Locke.git",
-  "author": "Sankarsan Kampa",
-  "license": "GPL-3.0",
+  "author": "TRACTION",
+  "license": "MIT",
   "homepage": "https://github.com/TheBastionBot/Locke#README",
   "dependencies": {
     "yaml": "^2.1.3"
