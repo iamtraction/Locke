@@ -12,7 +12,7 @@ declare class Locke {
     private substitute;
     getConstant(key: string): string;
     getLocales(): string[];
-    getString(locale: string, namespace: string, key: string, ...args: unknown[]): string;
+    getString(locale: string, key: string, ...args: unknown[]): string;
 }
 export { Locke };
 //# sourceMappingURL=index.d.ts.map
