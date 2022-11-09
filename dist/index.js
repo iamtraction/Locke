@@ -5,8 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const YAML = require("yaml");
 class Locke {
-    directory;
     defaultLocale;
+    directory;
     locales;
     constants;
     strings;
@@ -14,17 +14,18 @@ class Locke {
         this.defaultLocale = options.defaultLocale || "en_us";
         this.directory = options.directory || "locales";
         this.directory = path.resolve("./" + this.directory);
+        this.locales = [];
+        this.strings = new Map();
         if (!fs.existsSync(this.directory)) {
             throw new Error(`The specified locales directory '${this.directory}' was not found.`);
         }
-        this.locales = fs.readdirSync(this.directory);
+        const localeFiles = fs.readdirSync(this.directory);
         const constantsPath = path.join(this.directory, "constants.yaml");
         if (fs.existsSync(constantsPath)) {
             this.constants = YAML.parse(fs.readFileSync(constantsPath, "utf8"));
         }
-        this.strings = new Map();
-        for (const locale of this.locales) {
-            const localePath = path.join(this.directory, locale);
+        for (const localeFile of localeFiles) {
+            const localePath = path.join(this.directory, localeFile);
             if (fs.statSync(localePath).isDirectory()) {
                 const files = fs.readdirSync(localePath);
                 let localeStrings = {};
@@ -34,10 +35,13 @@ class Locke {
                         continue;
                     localeStrings = Object.assign(localeStrings, this.loadStrings(filePath));
                 }
-                this.strings.set(locale, localeStrings);
+                this.locales.push(localeFile);
+                this.strings.set(localeFile, localeStrings);
             }
-            else if (path.extname(locale) === ".yaml" && locale !== "constants.yaml") {
-                this.strings.set(path.parse(locale).name, this.loadStrings(localePath));
+            else if (path.extname(localeFile) === ".yaml" && localeFile !== "constants.yaml") {
+                const locale = path.parse(localeFile).name;
+                this.locales.push(locale);
+                this.strings.set(locale, this.loadStrings(localePath));
             }
         }
     }
@@ -60,7 +64,7 @@ class Locke {
         return string;
     }
     getConstant(key) {
-        return this.constants[key];
+        return this.constants?.[key];
     }
     getLocales() {
         return this.locales;
