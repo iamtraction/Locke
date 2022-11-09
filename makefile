@@ -30,4 +30,4 @@ build: transpile
 
 transpile:
 	@echo "Transpiling TypeScript to JavaScript..."
-	@npm build
+	@npm run build
