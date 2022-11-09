@@ -3,8 +3,8 @@
     defaultLocale?: string;
 }
 declare class Locke {
-    private directory;
     private defaultLocale;
+    private directory;
     private locales;
     private constants;
     private strings;

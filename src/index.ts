@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as YAML from "yaml";
 
+type LocaleStrings = { [key: string]: string };
+
 interface LockeOptions {
     /** The the directory where locales are stored. */
     directory?: string;
@@ -17,9 +19,9 @@ class Locke {
     /** The available locales. */
     private locales: string[];
     /** The constant values across all locales. */
-    private constants: { [key: string]: string };
+    private constants: LocaleStrings;
     /** Stores all the strings in all the locales. */
-    private strings: Map<string, { [key: string]: string }>;
+    private strings: Map<string, LocaleStrings>;
 
     constructor(options: LockeOptions = {}) {
         /* eslint-disable no-sync */
@@ -29,7 +31,7 @@ class Locke {
         this.directory = path.resolve("./" + this.directory);
 
         this.locales = [];
-        this.strings = new Map<string, { [key: string]: string }>();
+        this.strings = new Map<string, LocaleStrings>();
 
         if (!fs.existsSync(this.directory)) {
             throw new Error(`The specified locales directory '${this.directory}' was not found.`);
@@ -48,7 +50,7 @@ class Locke {
             if (fs.statSync(localePath).isDirectory()) {
                 const files = fs.readdirSync(localePath);
 
-                let localeStrings: { [key: string]: string } = {};
+                let localeStrings: LocaleStrings = {};
                 for (const file of files) {
                     const filePath = path.join(localePath, file);
                     if (fs.statSync(filePath).isDirectory()) continue;
@@ -71,8 +73,8 @@ class Locke {
     /**
      * Returns the strings from the specified file with the constants substituted.
      */
-    private loadStrings(file: string): { [key: string]: string } {
-        const strings: { [key: string]: string } = YAML.parse(fs.readFileSync(file, "utf-8"));
+    private loadStrings(file: string): LocaleStrings {
+        const strings: LocaleStrings = YAML.parse(fs.readFileSync(file, "utf-8"));
         if (this.constants) {
             const constantsRegExp = new RegExp("%(?:" + Object.keys(this.constants).join("|") + ")%", "g");
             for (const key in strings) {
