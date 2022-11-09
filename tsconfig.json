@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "typings",
-    "declarationMap": true,
+    "declarationMap": false,
     "diagnostics": true,
     "emitBOM": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,7 +19,8 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "rootDir": "src",
-    "sourceMap": true,
+    "sourceMap": false,
+    "skipLibCheck": true,
     "target": "esnext"
   },
   "exclude": [
