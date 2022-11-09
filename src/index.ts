@@ -19,7 +19,7 @@ class Locke {
     /** The constant values across all locales. */
     private constants: { [key: string]: string };
     /** Stores all the strings in all the locales. */
-    private strings: Map<string, Map<string, { [key: string]: string }>>;
+    private strings: Map<string, { [key: string]: string }>;
 
     constructor(options: LockeOptions = {}) {
         /* eslint-disable no-sync */
@@ -39,12 +39,12 @@ class Locke {
             this.constants = YAML.parse(fs.readFileSync(constantsPath, "utf8"));
         }
 
-        this.strings = new Map<string, Map<string, { [key: string]: string }>>();
+        this.strings = new Map<string, { [key: string]: string }>();
         for (const locale of this.locales) {
             const localeDirectory = path.join(this.directory, locale);
             const files = fs.readdirSync(localeDirectory);
 
-            const localeStrings = new Map<string, { [key: string]: string }>();
+            let localeStrings: { [key: string]: string } = {};
             for (const file of files) {
                 const filePath = path.join(localeDirectory, file);
                 if (fs.statSync(filePath).isDirectory()) continue;
@@ -58,7 +58,7 @@ class Locke {
                         }
                     }
                 }
-                localeStrings.set(path.basename(file, ".yaml"), strings);
+                localeStrings = Object.assign(localeStrings, strings);
             }
 
             this.strings.set(locale, localeStrings);
@@ -91,22 +91,21 @@ class Locke {
     }
 
     /**
-     * Returns the string for the specified key in the specified language,
-     * in the specified namespace of the specified locale.
+     * Returns the string for the specified key in the specified locale.
      */
-    public getString(locale: string, namespace: string, key: string, ...args: unknown[]): string {
+    public getString(locale: string, key: string, ...args: unknown[]): string {
         if (!this.strings.has(locale)) {
             locale = this.defaultLocale;
         }
 
-        if (!this.strings.get(locale).has(namespace) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale).get(namespace), key)) {
+        if (!this.strings.get(locale) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale), key)) {
             if (locale === this.defaultLocale) {
-                return `No string found for '${namespace}::${key}' in the locale '${locale}'.`;
+                return `No string found for '${key}' in the locale '${locale}'.`;
             }
-            return this.getString(this.defaultLocale, namespace, key, ...args);
+            return this.getString(this.defaultLocale, key, ...args);
         }
 
-        return this.substitute(this.strings.get(locale).get(namespace)[key], ...args);
+        return this.substitute(this.strings.get(locale)[key], ...args);
     }
 }
 
