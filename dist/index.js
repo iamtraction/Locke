@@ -83,4 +83,3 @@ class Locke {
     }
 }
 exports.Locke = Locke;
-//# sourceMappingURL=index.js.map
