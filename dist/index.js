@@ -17,33 +17,41 @@ class Locke {
         if (!fs.existsSync(this.directory)) {
             throw new Error(`The specified locales directory '${this.directory}' was not found.`);
         }
-        this.locales = fs.readdirSync(this.directory).filter(file => fs.statSync(path.join(this.directory, file)).isDirectory());
+        this.locales = fs.readdirSync(this.directory);
         const constantsPath = path.join(this.directory, "constants.yaml");
         if (fs.existsSync(constantsPath)) {
             this.constants = YAML.parse(fs.readFileSync(constantsPath, "utf8"));
         }
         this.strings = new Map();
         for (const locale of this.locales) {
-            const localeDirectory = path.join(this.directory, locale);
-            const files = fs.readdirSync(localeDirectory);
-            let localeStrings = {};
-            for (const file of files) {
-                const filePath = path.join(localeDirectory, file);
-                if (fs.statSync(filePath).isDirectory())
-                    continue;
-                const strings = YAML.parse(fs.readFileSync(filePath, "utf-8"));
-                if (this.constants) {
-                    const constantsRegExp = new RegExp("%(?:" + Object.keys(this.constants).join("|") + ")%", "g");
-                    for (const key in strings) {
-                        if (Object.prototype.hasOwnProperty.call(strings, key)) {
-                            strings[key] = strings[key].replace(constantsRegExp, matched => this.constants[matched.slice(1, -1)]);
-                        }
-                    }
+            const localePath = path.join(this.directory, locale);
+            if (fs.statSync(localePath).isDirectory()) {
+                const files = fs.readdirSync(localePath);
+                let localeStrings = {};
+                for (const file of files) {
+                    const filePath = path.join(localePath, file);
+                    if (fs.statSync(filePath).isDirectory())
+                        continue;
+                    localeStrings = Object.assign(localeStrings, this.loadStrings(filePath));
                 }
-                localeStrings = Object.assign(localeStrings, strings);
+                this.strings.set(locale, localeStrings);
             }
-            this.strings.set(locale, localeStrings);
+            else if (path.extname(locale) === ".yaml" && locale !== "constants.yaml") {
+                this.strings.set(path.parse(locale).name, this.loadStrings(localePath));
+            }
         }
+    }
+    loadStrings(file) {
+        const strings = YAML.parse(fs.readFileSync(file, "utf-8"));
+        if (this.constants) {
+            const constantsRegExp = new RegExp("%(?:" + Object.keys(this.constants).join("|") + ")%", "g");
+            for (const key in strings) {
+                if (Object.prototype.hasOwnProperty.call(strings, key)) {
+                    strings[key] = strings[key].replace(constantsRegExp, matched => this.constants[matched.slice(1, -1)]);
+                }
+            }
+        }
+        return strings;
     }
     substitute(string, ...args) {
         let count = 0;
