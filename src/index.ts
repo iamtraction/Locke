@@ -98,16 +98,6 @@ class Locke {
     }
 
     /**
-     * Returns a string with substitutions of %var% with the variables
-     * in `args`.
-     */
-    private substitute(string: string, ...args: unknown[]): string {
-        let count = 0;
-        if (args.length) return string.replace(/%var%/g, () => args[count] !== null && typeof args[count] !== "undefined" ? args[count++].toString() : "%var%");
-        return string;
-    }
-
-    /**
      * Returns the constant string for the specified key
      */
     public getConstant(key: string): string {
@@ -119,24 +109,6 @@ class Locke {
      */
     public getLocales(): string[] {
         return this.locales;
-    }
-
-    /**
-     * Returns the string for the specified key in the specified locale.
-     */
-    public getString(locale: string, key: string, ...args: unknown[]): string {
-        if (!this.strings.has(locale)) {
-            locale = this.defaultLocale;
-        }
-
-        if (!this.strings.get(locale) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale), key)) {
-            if (locale === this.defaultLocale) {
-                return `No string found for '${key}' in the locale '${locale}'.`;
-            }
-            return this.getString(this.defaultLocale, key, ...args);
-        }
-
-        return this.substitute(this.strings.get(locale)[key], ...args);
     }
 
     /**
