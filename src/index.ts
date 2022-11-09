@@ -5,9 +5,15 @@ import * as YAML from "yaml";
 type LocaleStrings = { [key: string]: string };
 
 interface LockeOptions {
-    /** The the directory where locales are stored. */
+    /**
+     * The the directory where locales are stored.
+     * @default "locales"
+     */
     directory?: string;
-    /** The default locale. */
+    /**
+     * The default locale.
+     * @default "en-US"
+     */
     defaultLocale?: string;
 }
 
@@ -25,7 +31,7 @@ class Locke {
 
     constructor(options: LockeOptions = {}) {
         /* eslint-disable no-sync */
-        this.defaultLocale = options.defaultLocale || "en_us";
+        this.defaultLocale = options.defaultLocale || "en-US";
 
         this.directory = options.directory || "locales";
         this.directory = path.resolve("./" + this.directory);
