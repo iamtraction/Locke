@@ -16,4 +16,3 @@ declare class Locke {
     getString(locale: string, key: string, ...args: unknown[]): string;
 }
 export { Locke };
-//# sourceMappingURL=index.d.ts.map
