@@ -57,29 +57,11 @@ class Locke {
         }
         return strings;
     }
-    substitute(string, ...args) {
-        let count = 0;
-        if (args.length)
-            return string.replace(/%var%/g, () => args[count] !== null && typeof args[count] !== "undefined" ? args[count++].toString() : "%var%");
-        return string;
-    }
     getConstant(key) {
         return this.constants?.[key];
     }
     getLocales() {
         return this.locales;
-    }
-    getString(locale, key, ...args) {
-        if (!this.strings.has(locale)) {
-            locale = this.defaultLocale;
-        }
-        if (!this.strings.get(locale) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale), key)) {
-            if (locale === this.defaultLocale) {
-                return `No string found for '${key}' in the locale '${locale}'.`;
-            }
-            return this.getString(this.defaultLocale, key, ...args);
-        }
-        return this.substitute(this.strings.get(locale)[key], ...args);
     }
     resolveVariables(text, variables) {
         for (const [key, value] of Object.entries(variables || {})) {
