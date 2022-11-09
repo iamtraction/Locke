@@ -10,10 +10,10 @@ interface LockeOptions {
 }
 
 class Locke {
-    /** The the directory where locales are stored. */
-    private directory: string;
     /** The default locale. */
     private defaultLocale: string;
+    /** The the directory where locales are stored. */
+    private directory: string;
     /** The available locales. */
     private locales: string[];
     /** The constant values across all locales. */
@@ -28,20 +28,22 @@ class Locke {
         this.directory = options.directory || "locales";
         this.directory = path.resolve("./" + this.directory);
 
+        this.locales = [];
+        this.strings = new Map<string, { [key: string]: string }>();
+
         if (!fs.existsSync(this.directory)) {
             throw new Error(`The specified locales directory '${this.directory}' was not found.`);
         }
 
-        this.locales = fs.readdirSync(this.directory);
+        const localeFiles = fs.readdirSync(this.directory);
 
         const constantsPath = path.join(this.directory, "constants.yaml");
         if (fs.existsSync(constantsPath)) {
             this.constants = YAML.parse(fs.readFileSync(constantsPath, "utf8"));
         }
 
-        this.strings = new Map<string, { [key: string]: string }>();
-        for (const locale of this.locales) {
-            const localePath = path.join(this.directory, locale);
+        for (const localeFile of localeFiles) {
+            const localePath = path.join(this.directory, localeFile);
 
             if (fs.statSync(localePath).isDirectory()) {
                 const files = fs.readdirSync(localePath);
@@ -54,9 +56,13 @@ class Locke {
                     localeStrings = Object.assign(localeStrings, this.loadStrings(filePath));
                 }
 
-                this.strings.set(locale, localeStrings);
-            } else if (path.extname(locale) === ".yaml" && locale !== "constants.yaml") {
-                this.strings.set(path.parse(locale).name, this.loadStrings(localePath));
+                this.locales.push(localeFile);
+                this.strings.set(localeFile, localeStrings);
+            } else if (path.extname(localeFile) === ".yaml" && localeFile !== "constants.yaml") {
+                const locale = path.parse(localeFile).name;
+
+                this.locales.push(locale);
+                this.strings.set(locale, this.loadStrings(localePath));
             }
         }
         /* eslint-enable no-sync */
@@ -92,7 +98,7 @@ class Locke {
      * Returns the constant string for the specified key
      */
     public getConstant(key: string): string {
-        return this.constants[key];
+        return this.constants?.[key];
     }
 
     /**
