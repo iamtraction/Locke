@@ -7,6 +7,7 @@ import * as path from "node:path";
 import * as YAML from "yaml";
 
 type LocaleStrings = { [key: string]: string };
+type Variables = { [key: string]: unknown };
 
 interface LockeOptions {
     /**
@@ -136,6 +137,31 @@ class Locke {
         }
 
         return this.substitute(this.strings.get(locale)[key], ...args);
+    }
+
+    /**
+     * Returns the text after substituting values of the specified variables.
+     */
+    private resolveVariables(text: string, variables: Variables): string {
+        for (const [ key, value ] of Object.entries(variables || {})) {
+            text = text.replaceAll(`%${key}%`, String(value));
+        }
+        return text;
+    }
+
+    /**
+     * Returns the text for the specified key in the specified locale. It also
+     * substitutes all the variables in the text with their specified values.
+     */
+    public getText(locale: string, key: string, variables: Variables): string {
+        if (!this.strings.get(locale) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale), key)) {
+            if (locale === this.defaultLocale) {
+                return `No string found for '${key}' in the locale '${locale}'.`;
+            }
+            return this.getText(this.defaultLocale, key, variables);
+        }
+
+        return this.resolveVariables(this.strings.get(locale)[key], variables);
     }
 }
 
