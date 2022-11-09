@@ -9,6 +9,7 @@ declare class Locke {
     private constants;
     private strings;
     constructor(options?: LockeOptions);
+    private loadStrings;
     private substitute;
     getConstant(key: string): string;
     getLocales(): string[];
