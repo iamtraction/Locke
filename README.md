@@ -9,17 +9,18 @@ ProjectDir/
      │    ├─── error.yaml
      │    ├─── info.yaml
      │    └─── warn.yaml
-     └─── en_uk
-          ├─── error.yaml
-          ├─── info.yaml
-          └─── warn.yaml
+     ├─── en_uk
+     │    ├─── error.yaml
+     │    ├─── info.yaml
+     │    └─── warn.yaml
+     └─── en_in.yaml
 ```
 
 
 **TODO:**
 - [X] Add support for a global constants across all locales.
 - [X] Add support for variables in translated strings.
-- [ ] Add support for using single file locales, for simple projects. Like:
+- [x] Add support for using single file locales, for simple projects. Like:
   ```bash
     # Director Sturcture for locales
     ProjectDir/
