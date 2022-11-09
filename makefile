@@ -23,11 +23,11 @@ lint: lint-typescript
 
 lint-typescript:
 	@echo "Linting TypeScript files..."
-	@yarn test:lint
+	@npm test
 
 
 build: transpile
 
 transpile:
 	@echo "Transpiling TypeScript to JavaScript..."
-	@yarn build:transpile
+	@npm build
