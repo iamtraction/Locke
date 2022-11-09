@@ -26,7 +26,7 @@ class Locke {
         for (const locale of this.locales) {
             const localeDirectory = path.join(this.directory, locale);
             const files = fs.readdirSync(localeDirectory);
-            const localeStrings = new Map();
+            let localeStrings = {};
             for (const file of files) {
                 const filePath = path.join(localeDirectory, file);
                 if (fs.statSync(filePath).isDirectory())
@@ -40,7 +40,7 @@ class Locke {
                         }
                     }
                 }
-                localeStrings.set(path.basename(file, ".yaml"), strings);
+                localeStrings = Object.assign(localeStrings, strings);
             }
             this.strings.set(locale, localeStrings);
         }
@@ -57,17 +57,17 @@ class Locke {
     getLocales() {
         return this.locales;
     }
-    getString(locale, namespace, key, ...args) {
+    getString(locale, key, ...args) {
         if (!this.strings.has(locale)) {
             locale = this.defaultLocale;
         }
-        if (!this.strings.get(locale).has(namespace) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale).get(namespace), key)) {
+        if (!this.strings.get(locale) || !Object.prototype.hasOwnProperty.call(this.strings.get(locale), key)) {
             if (locale === this.defaultLocale) {
-                return `No string found for '${namespace}::${key}' in the locale '${locale}'.`;
+                return `No string found for '${key}' in the locale '${locale}'.`;
             }
-            return this.getString(this.defaultLocale, namespace, key, ...args);
+            return this.getString(this.defaultLocale, key, ...args);
         }
-        return this.substitute(this.strings.get(locale).get(namespace)[key], ...args);
+        return this.substitute(this.strings.get(locale)[key], ...args);
     }
 }
 exports.Locke = Locke;
