@@ -5,6 +5,11 @@ const fs = require("fs");
 const path = require("path");
 const YAML = require("yaml");
 class Locke {
+    directory;
+    defaultLocale;
+    locales;
+    constants;
+    strings;
     constructor(options = {}) {
         this.defaultLocale = options.defaultLocale || "en_us";
         this.directory = options.directory || "locales";
