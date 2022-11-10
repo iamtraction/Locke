@@ -1,17 +1,17 @@
 {
-  "name": "locke",
+  "name": "@iamtraction/locke",
   "version": "2.0.0",
-  "description": "The string internationalization handler of Bastion.",
+  "description": "A simple internationalization handler for Node.js.",
   "main": "./dist/index.js",
   "typings": "./typings/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "eslint . --ext .ts"
   },
-  "repository": "https://github.com/TheBastionBot/Locke.git",
+  "repository": "https://github.com/iamtraction/Locke.git",
   "author": "TRACTION",
   "license": "MIT",
-  "homepage": "https://github.com/TheBastionBot/Locke#README",
+  "homepage": "https://github.com/iamtraction/Locke#README",
   "dependencies": {
     "yaml": "^2.1.3"
   },
