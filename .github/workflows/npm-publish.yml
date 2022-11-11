@@ -9,27 +9,27 @@ on:
 jobs:
   release:
     name: Release
-    needs: test
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 18
+        registry-url: https://registry.npmjs.org/
 
-      - name: Dependencies
-        run: npm install
+    - name: Dependencies
+      run: npm install
 
-      - name: Test
-        run: make test
-        env:
-          CI: true
+    - name: Test
+      run: npm test
+      env:
+        CI: true
 
-      - name: Build
-        run: make build
+    - name: Build
+      run: npm run build
 
-      - name: Publish
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+    - name: Publish
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
