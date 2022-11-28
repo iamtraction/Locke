@@ -1,6 +1,6 @@
 {
   "name": "@iamtraction/locke",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple internationalization handler for Node.js.",
   "main": "./dist/index.js",
   "typings": "./typings/index.d.ts",
